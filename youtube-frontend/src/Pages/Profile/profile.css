@@ -1,0 +1,208 @@
+.profile {
+    display: flex;
+    width: 100%;
+    padding: 10px 13px 0;
+    box-sizing: border-box;
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .profile_page,
+  .profile_page_inactive {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    flex: 1;
+    margin-top: 56px;
+    padding: 0 15px;
+    align-items: center;
+  }
+  
+  .profile_page {
+    margin-left: 270px;
+  }
+  
+  .profile_banner {
+    width: 100%;
+    height: 180px;
+    background-image: url("/images/indian-cricketer-virat-kohli-hd.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  
+  
+  .profile_top_section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 20px;
+  }
+  
+  .profile_top_section_profile {
+    width: 150px;
+    height: 150px;
+    flex-shrink: 0;
+  }
+  
+  .profile_top_section_img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .profile_top_section_About {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 0 10px;
+  }
+  
+  .profile_top_section_About_Name {
+    font-size: 36px;
+    font-weight: 600;
+  }
+  
+  .profile_top_section_info {
+    font-size: 16px;
+    color: #b3b3b3;
+  }
+  
+  .subscribe-btn {
+    width: 100px;
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .subscribe-btn:hover {
+    background-color: #cc0000;
+  }
+  
+  .profile_videos {
+    width: 100%;
+  }
+  
+  .profile_videos_title {
+    font-size: 22px;
+    padding-bottom: 10px;
+    color: #cfcfcf;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #999;
+  }
+  
+  .profileVideos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+    justify-content: flex-start;
+  }
+  
+  .profileVideo_block {
+    flex: 1 1 calc(25% - 16px);
+    max-width: 240px;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+  
+  .profileVideo_block:hover {
+    transform: scale(1.03);
+  }
+  
+  .profileVideo_block_thumbnail {
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+    border-radius: 6px;
+  }
+  
+  .profileVideo_block_thumbnail_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profileVideo_block_detail {
+    margin-top: 6px;
+  }
+  
+  .profileVideo_block_detail_name {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .profileVideo_block_detail_about {
+    font-size: 13px;
+    color: #ababab;
+  }
+  .delete-btn {
+    margin-top: 8px;
+    padding: 6px 12px;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  .delete-btn:hover {
+    background-color: #e60000;
+  }
+  
+  .profileVideo_block_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .profileVideo_block {
+      flex: 1 1 calc(33.333% - 16px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .profile_page {
+      margin-left: 0;
+      padding: 0 10px;
+    }
+  
+    .profile_top_section {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .profile_top_section_About {
+      width: 100%;
+      padding: 10px 0;
+    }
+  
+    .profileVideos {
+      justify-content: center;
+    }
+  
+    .profileVideo_block {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+  }
+  

@@ -1,0 +1,96 @@
+.videoUpload {
+    padding-top: 56px;
+    width: 100%;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    color: white;
+    font-family: "Oswald", sans-serif;
+    font-weight: 400;
+  }
+  
+  .uploadBox {
+    width: 45%;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 0 8px white;
+    padding: 30px 25px;
+    background-color: #121212;
+  }
+  
+  .uploadVideoTitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 600;
+    gap: 10px;
+  }
+  
+  .uploadForm {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 30px;
+    align-items: center;
+  }
+  
+  .uploadForm input[type="text"],
+  .uploadForm input[type="file"] {
+    width: 70%;
+    height: 45px;
+    padding: 0 15px;
+    font-size: 16px;
+    color: white;
+    background-color: #222;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .uploadForm label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 70%;
+    font-size: 16px;
+  }
+  
+  .uploadBtns {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+  }
+  
+  .uploadBtn-form {
+    padding: 10px 20px;
+    border: 1px solid white;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .uploadBtn-form:hover {
+    background-color: white;
+    color: black;
+  }
+  
+  /* Optional: Make it responsive for mobile screens */
+  @media screen and (max-width: 768px) {
+    .uploadBox {
+      width: 90%;
+    }
+  
+    .uploadForm input,
+    .uploadForm label {
+      width: 100%;
+    }
+  }
+  
