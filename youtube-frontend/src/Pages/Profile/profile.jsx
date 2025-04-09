@@ -6,19 +6,22 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 const Profile = ({ sideNavbar }) => {
+  // Get user ID from the URL params
   const { id } = useParams();
+
+  // State to store videos, user info, and loading status
   const [videos, setVideos] = useState([]);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch profile data
+  // Fetch user profile data and videos
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         setLoading(true);
         const res = await axios.get(`http://localhost:5000/api/${id}/channel`);
         setVideos(res.data.video || []);
-        setUser(res.data.video?.[0]?.user || null);
+        setUser(res.data.video?.[0]?.user || null); // Extract user from the first video if available
       } catch (err) {
         console.error("Failed to fetch profile data:", err);
       } finally {
@@ -29,43 +32,45 @@ const Profile = ({ sideNavbar }) => {
     if (id) fetchProfileData();
   }, [id]);
 
-  // Set page title
+  // Set the document title to the channel name when user data is available
   useEffect(() => {
     if (user?.channelName) {
       document.title = `${user.channelName} - Channel`;
     }
   }, [user]);
 
-  // Handle delete
+  // Function to delete a video
   const handleDelete = async (videoId) => {
     try {
       const confirmDelete = window.confirm("Are you sure you want to delete this video?");
       if (!confirmDelete) return;
-  
+
       await axios.delete(`http://localhost:5000/api/videos/${videoId}`, {
         withCredentials: true,
       });
-  
-      // Remove deleted video from UI
+
+      // Remove the deleted video from UI
       setVideos((prevVideos) => prevVideos.filter((v) => v._id !== videoId));
     } catch (err) {
       console.error("Failed to delete video:", err);
     }
   };
-  
 
   return (
     <div className="profile">
+      {/* Sidebar Navigation */}
       <SideNavbar sideNavbar={sideNavbar} />
 
+      {/* Main Profile Content */}
       <div className={sideNavbar ? "profile_page" : "profile_page_inactive"}>
         {loading ? (
           <div className="profile_loading">Loading profile...</div>
         ) : (
           <>
-            {/* Top Profile Section */}
+            {/* Top Section: Banner, Profile Pic, Channel Info */}
             <div className="profile_top_section">
               <div className="profile_banner" />
+
               <div className="profile_top_section_profile">
                 <img
                   className="profile_top_section_img"
@@ -73,6 +78,7 @@ const Profile = ({ sideNavbar }) => {
                   alt="Profile"
                 />
               </div>
+
               <div className="profile_top_section_About">
                 <div className="profile_top_section_About_Name">
                   {user?.channelName || "No Channel Name"}
@@ -88,7 +94,7 @@ const Profile = ({ sideNavbar }) => {
               </div>
             </div>
 
-            {/* Video Section */}
+            {/* Video Gallery Section */}
             <div className="profile_videos">
               <div className="profile_videos_title">
                 Videos <ArrowRightIcon />
@@ -100,6 +106,7 @@ const Profile = ({ sideNavbar }) => {
                 ) : (
                   videos.map((video) => (
                     <div key={video._id} className="profileVideo_block_wrapper">
+                      {/* Link to video watch page */}
                       <Link to={`/watch/${video._id}`} className="profileVideo_block">
                         <div className="profileVideo_block_thumbnail">
                           <img
@@ -108,6 +115,7 @@ const Profile = ({ sideNavbar }) => {
                             className="profileVideo_block_thumbnail_img"
                           />
                         </div>
+
                         <div className="profileVideo_block_detail">
                           <div className="profileVideo_block_detail_name">
                             {video.title || "Untitled"}
@@ -118,7 +126,7 @@ const Profile = ({ sideNavbar }) => {
                         </div>
                       </Link>
 
-                      {/* Delete Button */}
+                      {/* Delete button for video */}
                       <button
                         className="delete-btn"
                         onClick={() => handleDelete(video._id)}

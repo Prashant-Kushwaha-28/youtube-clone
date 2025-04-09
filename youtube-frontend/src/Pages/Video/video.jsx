@@ -8,8 +8,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Video = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Get video ID from route
 
+  // Component state
   const [message, setMessage] = useState("");
   const [data, setData] = useState(null);
   const [videoUrl, setVideoURL] = useState("");
@@ -17,12 +18,14 @@ const Video = () => {
   const [loading, setLoading] = useState(true);
   const [suggestions, setSuggestions] = useState([]);
 
+  // Logged-in user info (from localStorage)
   const user = {
     profilePic: localStorage.getItem("userProfilePic") || "default.png",
     userId: localStorage.getItem("userId"),
     token: localStorage.getItem("token"),
   };
 
+  // Fetch video suggestions
   const fetchSuggestions = async (videoId) => {
     try {
       const res = await axios.get(`http://localhost:5000/api/suggestions/${videoId}`);
@@ -32,6 +35,7 @@ const Video = () => {
     }
   };
 
+  // Fetch comments for the video
   const fetchComments = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/commentApi/comment/${id}`);
@@ -42,6 +46,7 @@ const Video = () => {
     }
   };
 
+  // Fetch video details by ID (initial load)
   useEffect(() => {
     const fetchVideoById = async () => {
       try {
@@ -50,7 +55,7 @@ const Video = () => {
         setData(video);
         setVideoURL(video?.videoLink);
         fetchComments();
-        fetchSuggestions(video._id); // Fetch suggestions after video is fetched
+        fetchSuggestions(video._id); // Fetch related videos
       } catch (err) {
         console.error("Video fetch failed:", err);
         toast.error("Failed to load video.");
@@ -62,6 +67,7 @@ const Video = () => {
     fetchVideoById();
   }, [id]);
 
+  // Handle posting a new comment
   const handleComment = async () => {
     if (!message.trim()) return;
 
@@ -86,13 +92,14 @@ const Video = () => {
     }
   };
 
+  // Loading or not found states
   if (loading) return <div className="video">Loading...</div>;
   if (!data) return <div className="video">Video not found.</div>;
 
   return (
     <div className="video">
       <div className="videoPostSection">
-        {/* ▶️ Video */}
+        {/* ▶️ Video player */}
         <div className="video_youtube">
           {videoUrl ? (
             <video width="100%" controls autoPlay className="video_youtube_video">
@@ -104,11 +111,12 @@ const Video = () => {
           )}
         </div>
 
-        {/* 📺 Video Info */}
+        {/* 📺 Video metadata and user info */}
         <div className="video_youtubeAbout">
           <div className="video_uTubeTitle">{data?.title}</div>
 
           <div className="youtube_video_ProfileBlock">
+            {/* Uploader info */}
             <div className="youtube_video_ProfileBlock_left">
               <Link
                 to={`/user/${data?.user?._id}`}
@@ -131,6 +139,7 @@ const Video = () => {
               <div className="subscribeBtnYoutube">Subscribe</div>
             </div>
 
+            {/* 👍👎 Like/dislike placeholders */}
             <div className="youtube_video_likeBlock">
               <div className="youtube_video_likeBlock_like">
                 <ThumbUpOutlinedIcon />
@@ -141,18 +150,20 @@ const Video = () => {
             </div>
           </div>
 
+          {/* 📄 Video description */}
           <div className="youtube_video_About">
             <div>Published: {data?.createdAt?.slice(0, 10)}</div>
             <div>{data?.description}</div>
           </div>
         </div>
 
-        {/* 💬 Comments */}
+        {/* 💬 Comments section */}
         <div className="youtubeCommentSection">
           <div className="youtubeCommentSectionTitle">
             {comments.length} Comments
           </div>
 
+          {/* User comment input */}
           <div className="youtubeSelfComment">
             <img
               className="video_youtubeSelfCommentProfile"
@@ -178,6 +189,7 @@ const Video = () => {
             </div>
           </div>
 
+          {/* Other users' comments */}
           <div className="youtubeOthersComments">
             {comments.map((item) => {
               const profilePic =
@@ -218,7 +230,7 @@ const Video = () => {
         </div>
       </div>
 
-      {/* 🔁 Suggestions */}
+      {/* 🔁 Video suggestions */}
       <div className="videoSuggestions">
         {suggestions.length > 0 ? (
           suggestions.map((video) => (
@@ -250,6 +262,7 @@ const Video = () => {
         )}
       </div>
 
+      {/* Toast notifications */}
       <ToastContainer />
     </div>
   );

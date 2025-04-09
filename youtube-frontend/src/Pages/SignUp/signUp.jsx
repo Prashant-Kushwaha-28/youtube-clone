@@ -7,15 +7,18 @@ import { toast, ToastContainer } from "react-toastify";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 
+// Base URL from environment variable
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const SignUp = () => {
   const navigate = useNavigate();
 
+  // Default profile image
   const [uploadedImageUrl, setUploadedImageUrl] = useState(
     "https://th.bing.com/th/id/OIP.Wy2uo_y-ttULYs4chLmqSAAAAA?rs=1&pid=ImgDetMain"
   );
 
+  // Form input fields
   const [signUpField, setSignUpField] = useState({
     channelName: "",
     userName: "",
@@ -24,8 +27,10 @@ const SignUp = () => {
     profilePic: uploadedImageUrl,
   });
 
+  // Progress bar loading state
   const [progressBar, setProgressBar] = useState(false);
 
+  // Handle form input change
   const handleInputField = (e) => {
     const { name, value } = e.target;
     setSignUpField((prev) => ({
@@ -34,6 +39,7 @@ const SignUp = () => {
     }));
   };
 
+  // Upload profile picture to Cloudinary
   const uploadImage = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -58,6 +64,7 @@ const SignUp = () => {
     }
   };
 
+  // Handle sign up button click
   const handleSignup = async () => {
     try {
       setProgressBar(true);
@@ -67,7 +74,7 @@ const SignUp = () => {
         { withCredentials: true }
       );
       toast.success(res.data.message);
-      navigate("/");
+      navigate("/"); // Redirect to home page on success
     } catch (err) {
       toast.error(err?.response?.data?.message || "Signup failed");
     } finally {
@@ -78,11 +85,13 @@ const SignUp = () => {
   return (
     <div className="signUp">
       <div className="signup_card">
+        {/* App icon and title */}
         <div className="signUp_title">
           <YouTubeIcon sx={{ fontSize: "54px" }} className="login_youtubeImage" />
           SignUp
         </div>
 
+        {/* Signup form inputs */}
         <div className="signUp_Inputs">
           <input
             type="text"
@@ -120,6 +129,7 @@ const SignUp = () => {
             onChange={handleInputField}
           />
 
+          {/* Profile image upload and preview */}
           <div className="image_upload_signup">
             <input type="file" accept="image/*" onChange={uploadImage} />
             <div className="image_upload_signup_div">
@@ -127,6 +137,7 @@ const SignUp = () => {
             </div>
           </div>
 
+          {/* Buttons for signup and navigation */}
           <div className="signUpBtns">
             <button className="signUpBtn" onClick={handleSignup}>
               Sign Up
@@ -134,6 +145,7 @@ const SignUp = () => {
             <Link to="/" className="signUpBtn">Home Page</Link>
           </div>
 
+          {/* Show linear progress bar during loading */}
           {progressBar && (
             <Box sx={{ width: "100%" }}>
               <LinearProgress />
@@ -141,6 +153,8 @@ const SignUp = () => {
           )}
         </div>
       </div>
+
+      {/* Toast notifications container */}
       <ToastContainer />
     </div>
   );

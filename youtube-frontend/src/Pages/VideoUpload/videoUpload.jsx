@@ -1,3 +1,4 @@
+// Import necessary hooks, components, and libraries
 import React, { useState, useEffect } from "react";
 import "./videoUpload.css";
 import YouTubeIcon from "@mui/icons-material/YouTube";
@@ -6,7 +7,9 @@ import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
+// Main functional component for video upload
 const VideoUpload = () => {
+  // State to handle form input values
   const [inputField, setInputField] = useState({
     title: "",
     description: "",
@@ -15,18 +18,24 @@ const VideoUpload = () => {
     videoType: "",
   });
 
+  // State to manage loading spinner visibility
   const [loader, setLoader] = useState(false);
+
+  // Hook to navigate between routes
   const navigate = useNavigate();
 
+  // Redirect user to login if not logged in
   useEffect(() => {
     const isLogin = localStorage.getItem("userId");
     if (!isLogin) navigate("/");
   }, []);
 
+  // Update input field values as user types
   const handleOnChangeInput = (e, field) => {
     setInputField((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
+  // Upload image or video to Cloudinary and update form state
   const uploadImage = async (e, type) => {
     setLoader(true);
     const file = e.target.files?.[0];
@@ -34,9 +43,10 @@ const VideoUpload = () => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "youtube-clone");
+    formData.append("upload_preset", "youtube-clone"); // Cloudinary preset
 
     try {
+      // Upload to Cloudinary
       const response = await axios.post(
         `https://api.cloudinary.com/v1_1/prashant28/${type}/upload`,
         formData
@@ -44,6 +54,7 @@ const VideoUpload = () => {
       const url = response.data.url;
       const key = type === "image" ? "thumbnail" : "videoLink";
 
+      // Update state with uploaded file URL
       setInputField((prev) => ({ ...prev, [key]: url }));
     } catch (error) {
       console.error("Upload error:", error);
@@ -52,6 +63,7 @@ const VideoUpload = () => {
     }
   };
 
+  // Submit video data to backend
   const handleSubmit = async () => {
     setLoader(true);
     try {
@@ -59,7 +71,7 @@ const VideoUpload = () => {
         withCredentials: true,
       });
       console.log("Upload success:", res.data);
-      navigate("/");
+      navigate("/"); // Redirect to homepage after successful upload
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Upload failed. Please try again.");
@@ -68,15 +80,19 @@ const VideoUpload = () => {
     }
   };
 
+  // JSX return block rendering the upload form
   return (
     <div className="videoUpload">
       <div className="uploadBox">
+        {/* Page Title with YouTube Icon */}
         <div className="uploadVideoTitle">
           <YouTubeIcon sx={{ fontSize: "54px", color: "red" }} />
           Upload Video
         </div>
 
+        {/* Upload Form */}
         <div className="uploadForm">
+          {/* Text Inputs for Title, Description, and Category */}
           <input
             type="text"
             placeholder="Title"
@@ -96,11 +112,13 @@ const VideoUpload = () => {
             onChange={(e) => handleOnChangeInput(e, "videoType")}
           />
 
+          {/* File input for thumbnail image */}
           <label>
             Thumbnail
             <input type="file" accept="image/*" onChange={(e) => uploadImage(e, "image")} />
           </label>
 
+          {/* File input for video upload */}
           <label>
             Video
             <input
@@ -110,6 +128,7 @@ const VideoUpload = () => {
             />
           </label>
 
+          {/* Show loading spinner while uploading */}
           {loader && (
             <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
               <CircularProgress />
@@ -117,6 +136,7 @@ const VideoUpload = () => {
           )}
         </div>
 
+        {/* Upload and Home Buttons */}
         <div className="uploadBtns">
           <div
             className="uploadBtn-form"

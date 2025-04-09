@@ -1,28 +1,45 @@
+// Import mongoose
 const mongoose = require("mongoose");
 
+// Define the schema for users
+const userSchema = new mongoose.Schema(
+  {
+    // Display name of the user's channel
+    channelName: {
+      type: String,
+      required: true,
+    },
 
-const userSchema = new mongoose.Schema({
-    channelName:{
-        type:String,
-        required:true,
+    // Unique username used for login and display
+    userName: {
+      type: String,
+      required: true,
+      unique: true, // Ensures no two users can have the same userName
     },
-    userName:{
-        type:String,
-        required:true,
-        unique:true
-    },
-    password:{
-        type:String,
-        required:true,
-    },
-    about:{
-        type:String,
-        required:true,
-    },
-    profilePic:{
-        type:String,
-        required:true,
-    }
-},{timestamps:true})
 
-module.exports = mongoose.model('user',userSchema);
+    // Hashed password of the user
+    password: {
+      type: String,
+      required: true,
+    },
+
+    // Short description about the user or their channel
+    about: {
+      type: String,
+      required: true,
+    },
+
+    // URL or path to the profile picture
+    profilePic: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    // Automatically manages createdAt and updatedAt timestamps
+    timestamps: true,
+  }
+);
+
+// Export the user model
+module.exports = mongoose.model('user', userSchema);

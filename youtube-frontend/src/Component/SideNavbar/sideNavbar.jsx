@@ -1,5 +1,7 @@
 import React from "react";
 import "./sideNavbar.css";
+
+// MUI Icons for each sidebar item
 import HomeIcon from "@mui/icons-material/Home";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
@@ -15,7 +17,7 @@ import ContentCutIcon from "@mui/icons-material/ContentCut";
 const SideNavbar = ({ sideNavbar }) => {
   return (
     <div className={sideNavbar ? "home-sideNavbar" : "homeSideNavbarHide"}>
-      {/* MAIN NAV LINKS */}
+      {/* -------- MAIN NAV LINKS -------- */}
       <div className="home_sideNavbarTop">
         <div className="home_sideNavbarTopOption">
           <HomeIcon />
@@ -35,8 +37,9 @@ const SideNavbar = ({ sideNavbar }) => {
 
       <hr className="sideNavbarDivider" />
 
-      {/* YOU SECTION */}
+      {/* -------- 'YOU' SECTION -------- */}
       <div className="home_sideNavbarMiddle">
+        {/* Header with expandable icon (just visual here) */}
         <div className="home_sideNavbarTopOption">
           <div className="home_sideNavbarTopOptionTitle">You</div>
           <ChevronRightIcon />
@@ -80,14 +83,16 @@ const SideNavbar = ({ sideNavbar }) => {
 
       <hr className="sideNavbarDivider" />
 
-      {/* SUBSCRIPTIONS */}
+      {/* -------- SUBSCRIPTIONS SECTION -------- */}
       <div className="home_sideNavbarMiddle">
+        {/* Section header */}
         <div className="home_sideNavbarTopOption">
           <div className="home_sideNavbarTopOptionTitleHeader">
             Subscriptions
           </div>
         </div>
 
+        {/* Example subscriptions (static for now) */}
         <div className="home_sideNavbarTopOption">
           <img
             className="home_sideNavbar_ImgLogo"

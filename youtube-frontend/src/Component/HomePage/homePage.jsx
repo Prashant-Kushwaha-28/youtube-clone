@@ -3,28 +3,34 @@ import "./homePage.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
+// Custom hook to parse query parameters
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 const HomePage = ({ sideNavbar }) => {
+  // State to hold all videos
   const [data, setData] = useState([]);
+
   const navigate = useNavigate();
   const query = useQuery();
+
+  // Extract search query from URL
   const searchText = query.get("search")?.toLowerCase() || "";
 
+  // Fetch all videos from backend when component mounts
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/allVideo`)
       .then((res) => {
-        setData(res.data.videos);
+        setData(res.data.videos); // Store videos in state
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
+  // Video categories for the top filter bar
   const options = [
     "All",
     "Virat Kohli",
@@ -47,6 +53,7 @@ const HomePage = ({ sideNavbar }) => {
     "Comedy",
   ];
 
+  // Navigate to a category-based search
   const handleCategoryClick = (category) => {
     if (category === "All") {
       navigate(`/`);
@@ -55,12 +62,14 @@ const HomePage = ({ sideNavbar }) => {
     }
   };
 
+  // Filter videos based on the search query (case-insensitive match on title)
   const filteredData = data.filter((video) =>
     video?.title?.toLowerCase().includes(searchText)
   );
 
   return (
     <div className={sideNavbar ? "homePage" : "fullHomePage"}>
+      {/* Horizontal scroll bar for category filtering */}
       <div className="homePage_options">
         {options.map((item, index) => (
           <div
@@ -75,6 +84,7 @@ const HomePage = ({ sideNavbar }) => {
         ))}
       </div>
 
+      {/* Video grid */}
       <div className={sideNavbar ? "home_mainPage" : "home_mainPageWithoutLink"}>
         {filteredData.length > 0 ? (
           filteredData.map((item, ind) => (
@@ -114,6 +124,7 @@ const HomePage = ({ sideNavbar }) => {
             </Link>
           ))
         ) : (
+          // Show this when no videos match the search
           <div className="emptySearch">
             <img
               src="/images/no-results.svg"
